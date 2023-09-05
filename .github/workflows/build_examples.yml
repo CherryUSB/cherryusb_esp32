@@ -16,8 +16,6 @@ jobs:
       - name: Build examples
         shell: bash
         run: |
-          export IDF_EXTRA_ACTIONS_PATH=${GITHUB_WORKSPACE}/examples
           . ${IDF_PATH}/export.sh
           pip install idf-component-manager ruamel.yaml idf-build-apps --upgrade
-          idf-build-apps find
-          idf-build-apps build
+          idf-build-apps build -p ./examples --recursive --target esp32s3

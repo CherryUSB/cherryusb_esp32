@@ -1,8 +1,6 @@
 # CherryUSB Component and Examples for ESP
 
-[![Component Registry](https://components.espressif.com/components/leeebo/esp_cherryusb/badge.svg)](https://components.espressif.com/components/leeebo/esp_cherryusb)
-
-[![Build Status](https://github.com/leeebo/esp_cherryusb/actions/workflows/build_examples.yml/badge.svg)](https://github.com/leeebo/esp_cherryusb/actions/workflows/build_examples.yml)
+[![Component Registry](https://components.espressif.com/components/leeebo/esp_cherryusb/badge.svg)](https://components.espressif.com/components/leeebo/esp_cherryusb) [![Build Status](https://github.com/leeebo/esp_cherryusb/actions/workflows/build_examples.yml/badge.svg)](https://github.com/leeebo/esp_cherryusb/actions/workflows/build_examples.yml)
 
 This is the component and examples repository for the [CherryUSB](https://github.com/cherry-embedded/CherryUSB), which is a tiny and portable USB Stack (device & host) for embedded system with USB IP.
 

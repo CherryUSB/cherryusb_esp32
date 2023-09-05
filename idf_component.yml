@@ -1,0 +1,14 @@
+version: "0.0.1"
+targets:
+  - esp32s2
+  - esp32s3
+description: CherryUSB Port and Examples for ESP SoC with USB-OTG (S2/S3/C5/P4)
+url: https://github.com/leeebo/esp_cherryusb
+repository: https://github.com/leeebo/esp_cherryusb.git
+issues: https://github.com/leeebo/esp_cherryusb/issues
+dependencies:
+  idf: ">=4.4.1"
+  leeebo/cherryusb: "~=0.10.1"
+  cmake_utilities: "0.*"
+examples:
+  - path: examples/device/cherryusb_device_cdc

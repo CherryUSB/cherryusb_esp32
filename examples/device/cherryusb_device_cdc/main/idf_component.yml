@@ -1,0 +1,8 @@
+targets:
+  - esp32s2
+  - esp32s3
+dependencies:
+  idf: ">=4.4.1"
+  leeebo/esp_cherryusb:
+    version: "*"
+    override_path: "../../../../../esp_cherryusb"

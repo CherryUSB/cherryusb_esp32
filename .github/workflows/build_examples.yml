@@ -1,0 +1,23 @@
+name: Build examples
+
+on: push
+  
+jobs:
+  build:
+    strategy:
+      matrix:
+        idf_ver: ["latest"]
+    runs-on: ubuntu-20.04
+    container: espressif/idf:${{ matrix.idf_ver }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+      - name: Build examples
+        shell: bash
+        run: |
+          export IDF_EXTRA_ACTIONS_PATH=${GITHUB_WORKSPACE}/examples
+          . ${IDF_PATH}/export.sh
+          pip install idf-component-manager ruamel.yaml idf-build-apps --upgrade
+          idf-build-apps find
+          idf-build-apps build

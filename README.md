@@ -1,52 +1,46 @@
-# Hello World Example
+# CherryUSB Component and Examples for ESP
 
-Starts a FreeRTOS task to print "Hello World".
+[![Component Registry](https://components.espressif.com/components/leeebo/esp_cherryusb/badge.svg)](https://components.espressif.com/components/leeebo/esp_cherryusb)
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+[![Build Status](https://github.com/leeebo/esp_cherryusb/actions/workflows/build_examples.yml/badge.svg)](https://github.com/leeebo/esp_cherryusb/actions/workflows/build_examples.yml)
 
-## How to use example
+This is the component and examples repository for the [CherryUSB](https://github.com/cherry-embedded/CherryUSB), which is a tiny and portable USB Stack (device & host) for embedded system with USB IP.
 
-Follow detailed instructions provided specifically for this example. 
+This repository is wrapped as an ESP-IDF component and finally published to [Component Registry](https://components.espressif.com/).
 
-Select the instructions depending on Espressif chip installed on your development board:
+You can build the examples in this repository with **ESP-IDF v4.4.1 or later** directly. Or using the ESP-IDF component manager.
 
-- [ESP32 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/index.html)
-- [ESP32-S2 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/get-started/index.html)
+## How to add this component from esp-registry to your project
 
+Just add ``idf_component.yml`` to your main component with the following content::
 
-## Example folder contents
-
-The project **hello_world** contains one source file in C language [hello_world_main.c](main/hello_world_main.c). The file is located in folder [main](main).
-
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt` files that provide set of directives and instructions describing the project's source files and targets (executable, library, or both). 
-
-Below is short explanation of remaining files in the project folder.
-
-```
-├── CMakeLists.txt
-├── example_test.py            Python script used for automated example testing
-├── main
-│   ├── CMakeLists.txt
-│   ├── component.mk           Component make file
-│   └── hello_world_main.c
-├── Makefile                   Makefile used by legacy GNU Make
-└── README.md                  This is the file you are currently reading
+```yaml
+## IDF Component Manager Manifest File
+dependencies:
+  leeebo/esp_cherryusb: "*"
 ```
 
-For more information on structure and contents of ESP-IDF projects, please refer to Section [Build System](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html) of the ESP-IDF Programming Guide.
+Or simply run:
 
-## Troubleshooting
+```
+idf.py add-dependency "leeebo/esp_cherryusb"
+```
 
-* Program upload failure
+During the build process, the ESP-IDF build system will automatically download and install this component.
 
-    * Hardware connection is not correct: run `idf.py -p PORT monitor`, and reboot your board to see if there are any output logs.
-    * The baud rate for downloading is too high: lower your baud rate in the `menuconfig` menu, and try again.
+## How to download examples from esp-registry
 
-## Technical support and feedback
+Please use the component manager command `create-project-from-example` to create the project from example template
 
-Please use the following feedback channels:
+```
+idf.py create-project-from-example "leeebo/esp_cherryusb=*:cherryusb_device_cdc"
+```
 
-* For technical queries, go to the [esp32.com](https://esp32.com/) forum
-* For a feature request or bug report, create a [GitHub issue](https://github.com/espressif/esp-idf/issues)
+## How to build the examples
 
-We will get back to you as soon as possible.
+Please refer to the [examples/README.md](./examples/README.md)
+
+## API Documentation
+
+1. Library introduction can be found on [README](https://github.com/cherry-embedded/CherryUSB/blob/master/README.md) from the upstream CherryUSB.
+2. Full API code documentations and step by step guides can be found in [CherryUSB Docs Website](https://cherryusb.readthedocs.io/).

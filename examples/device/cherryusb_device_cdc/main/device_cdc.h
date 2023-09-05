@@ -1,3 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2022-2023 Espressif Systems (Shanghai) CO LTD
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#pragma once
+
 #include "usbd_core.h"
 #include "usbd_cdc.h"
 
@@ -14,11 +22,17 @@
 /*!< config descriptor size */
 #define USB_CONFIG_SIZE (9 + CDC_ACM_DESCRIPTOR_LEN)
 
+#ifdef CONFIG_USB_HS
+#define CDC_MAX_MPS 512
+#else
+#define CDC_MAX_MPS 64
+#endif
+
 /*!< global descriptor */
 static const uint8_t cdc_descriptor[] = {
     USB_DEVICE_DESCRIPTOR_INIT(USB_2_0, 0xEF, 0x02, 0x01, USBD_VID, USBD_PID, 0x0100, 0x01),
     USB_CONFIG_DESCRIPTOR_INIT(USB_CONFIG_SIZE, 0x02, 0x01, USB_CONFIG_BUS_POWERED, USBD_MAX_POWER),
-    CDC_ACM_DESCRIPTOR_INIT(0x00, CDC_INT_EP, CDC_OUT_EP, CDC_IN_EP, 0x02),
+    CDC_ACM_DESCRIPTOR_INIT(0x00, CDC_INT_EP, CDC_OUT_EP, CDC_IN_EP, CDC_MAX_MPS, 0x02),
     ///////////////////////////////////////
     /// string0 descriptor
     ///////////////////////////////////////
@@ -92,93 +106,3 @@ static const uint8_t cdc_descriptor[] = {
 #endif
     0x00
 };
-
-USB_NOCACHE_RAM_SECTION USB_MEM_ALIGNX uint8_t read_buffer[2048];
-USB_NOCACHE_RAM_SECTION USB_MEM_ALIGNX uint8_t write_buffer[2048];
-
-volatile bool ep_tx_busy_flag = false;
-
-#ifdef CONFIG_USB_HS
-#define CDC_MAX_MPS 512
-#else
-#define CDC_MAX_MPS 64
-#endif
-
-void usbd_configure_done_callback(void)
-{
-    /* setup first out ep read transfer */
-    usbd_ep_start_read(CDC_OUT_EP, read_buffer, 2048);
-}
-
-void usbd_cdc_acm_bulk_out(uint8_t ep, uint32_t nbytes)
-{
-    USB_LOG_RAW("actual out len:%d\r\n", nbytes);
-    // for (int i = 0; i < 100; i++) {
-    //     printf("%02x ", read_buffer[i]);
-    // }
-    // printf("\r\n");
-    /* setup next out ep read transfer */
-    usbd_ep_start_read(CDC_OUT_EP, read_buffer, 2048);
-}
-
-void usbd_cdc_acm_bulk_in(uint8_t ep, uint32_t nbytes)
-{
-    USB_LOG_RAW("actual in len:%d\r\n", nbytes);
-
-    if ((nbytes % CDC_MAX_MPS) == 0 && nbytes) {
-        /* send zlp */
-        usbd_ep_start_write(CDC_IN_EP, NULL, 0);
-    } else {
-        ep_tx_busy_flag = false;
-    }
-}
-
-/*!< endpoint call back */
-struct usbd_endpoint cdc_out_ep = {
-    .ep_addr = CDC_OUT_EP,
-    .ep_cb = usbd_cdc_acm_bulk_out
-};
-
-struct usbd_endpoint cdc_in_ep = {
-    .ep_addr = CDC_IN_EP,
-    .ep_cb = usbd_cdc_acm_bulk_in
-};
-
-struct usbd_interface intf0;
-struct usbd_interface intf1;
-
-void cdc_acm_init00(void)
-{
-    const uint8_t data[10] = { 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30 };
-
-    memcpy(&write_buffer[0], data, 10);
-    memset(&write_buffer[10], 'a', 2038);
-
-    usbd_desc_register(cdc_descriptor);
-    usbd_add_interface(usbd_cdc_acm_init_intf(&intf0));
-    usbd_add_interface(usbd_cdc_acm_init_intf(&intf1));
-    usbd_add_endpoint(&cdc_out_ep);
-    usbd_add_endpoint(&cdc_in_ep);
-    usbd_initialize();
-}
-
-volatile uint8_t dtr_enable = 0;
-
-void usbd_cdc_acm_set_dtr(uint8_t intf, bool dtr)
-{
-    if (dtr) {
-        dtr_enable = 1;
-    } else {
-        dtr_enable = 0;
-    }
-}
-
-void cdc_acm_data_send_with_dtr_test(void)
-{
-    if (dtr_enable) {
-        ep_tx_busy_flag = true;
-        usbd_ep_start_write(CDC_IN_EP, write_buffer, 2048);
-        while (ep_tx_busy_flag) {
-        }
-    }
-}

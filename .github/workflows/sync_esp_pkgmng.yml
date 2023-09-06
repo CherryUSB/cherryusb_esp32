@@ -8,13 +8,20 @@ jobs:
   upload_components:
     runs-on: ubuntu-latest
     steps:
+      - name: Check the repository name
+        run: |
+          if [[ ${{ github.repository }} != "leeebo/cherryusb_esp32" ]]; then
+            echo "This action is only for leeebo/cherryusb_esp32 repository"
+          fi
       - uses: actions/checkout@v2
+        if: github.repository == 'leeebo/cherryusb_esp32'
         with:
           submodules: "recursive"
 
       - name: Upload component to the component registry
+        if: github.repository == 'leeebo/cherryusb_esp32'
         uses: espressif/upload-components-ci-action@v1
         with:
-          name: "esp_cherryusb"
+          name: "cherryusb_esp32"
           namespace: "leeebo"
           api_token: ${{ secrets.IDF_COMPONENT_API_TOKEN }}

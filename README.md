@@ -1,6 +1,6 @@
 # CherryUSB Component and Examples for ESP
 
-[![Component Registry](https://components.espressif.com/components/leeebo/esp_cherryusb/badge.svg)](https://components.espressif.com/components/leeebo/esp_cherryusb) [![Build Status](https://github.com/leeebo/esp_cherryusb/actions/workflows/build_examples.yml/badge.svg)](https://github.com/leeebo/esp_cherryusb/actions/workflows/build_examples.yml)
+[![Component Registry](https://components.espressif.com/components/leeebo/cherryusb_esp32/badge.svg)](https://components.espressif.com/components/leeebo/cherryusb_esp32) [![Build Status](https://github.com/leeebo/cherryusb_esp32/actions/workflows/build_examples.yml/badge.svg)](https://github.com/leeebo/cherryusb_esp32/actions/workflows/build_examples.yml)
 
 This is the component and examples repository for the [CherryUSB](https://github.com/cherry-embedded/CherryUSB), which is a tiny and portable USB Stack (device & host) for embedded system with USB IP.
 
@@ -15,13 +15,13 @@ Just add ``idf_component.yml`` to your main component with the following content
 ```yaml
 ## IDF Component Manager Manifest File
 dependencies:
-  leeebo/esp_cherryusb: "*"
+  leeebo/cherryusb_esp32: "*"
 ```
 
 Or simply run:
 
 ```
-idf.py add-dependency "leeebo/esp_cherryusb"
+idf.py add-dependency "leeebo/cherryusb_esp32"
 ```
 
 During the build process, the ESP-IDF build system will automatically download and install this component.
@@ -31,7 +31,7 @@ During the build process, the ESP-IDF build system will automatically download a
 Please use the component manager command `create-project-from-example` to create the project from example template
 
 ```
-idf.py create-project-from-example "leeebo/esp_cherryusb=*:cherryusb_device_cdc"
+idf.py create-project-from-example "leeebo/cherryusb_esp32=*:cherryusb_device_cdc"
 ```
 
 ## How to build the examples

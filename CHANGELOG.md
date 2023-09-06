@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v0.0.3 - 2023-09-06
+
+* Rename component name to `cherryusb_esp32` to keep consistency with upstream
+
 ## v0.0.2 - 2023-09-05
 
 * Fix github build action

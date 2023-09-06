@@ -51,7 +51,7 @@ void usb_dc_low_level_init(void)
         return;
     }
     USB_LOG_INFO("cherryusb, version: 0x%06x\r\n", CHERRYUSB_VERSION);
-    USB_LOG_INFO("esp_cherryusb, version: %d.%d.%d\r\n", ESP_CHERRYUSB_VER_MAJOR, ESP_CHERRYUSB_VER_MINOR, ESP_CHERRYUSB_VER_PATCH);
+    USB_LOG_INFO("cherryusb_esp32, version: %d.%d.%d\r\n", CHERRYUSB_ESP32_VER_MAJOR, CHERRYUSB_ESP32_VER_MINOR, CHERRYUSB_ESP32_VER_PATCH);
 }
 
 void usb_dc_low_level_deinit(void)

@@ -1,0 +1,15 @@
+{
+  "C_Cpp.intelliSenseEngine": "default",
+  "idf.adapterTargetName": "esp32s3",
+  "idf.openOcdConfigs": [
+    "interface/ftdi/esp32_devkitj_v1.cfg",
+    "target/esp32s3.cfg"
+  ],
+  "idf.portWin": "COM15",
+  "idf.flashType": "UART",
+  "files.associations": {
+    "stdio.h": "c",
+    "sdkconfig.h": "c",
+    "freertos.h": "c"
+  }
+}

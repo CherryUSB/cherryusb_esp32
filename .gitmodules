@@ -1,3 +1,3 @@
-[submodule "cherryusb/main/cherryusb"]
-	path = cherryusb/main/cherryusb
+[submodule "cherryusb"]
+	path = cherryusb
 	url = https://github.com/cherry-embedded/CherryUSB.git

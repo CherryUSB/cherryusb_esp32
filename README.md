@@ -1,8 +1,8 @@
 ## CherryUSB ESP32S2/ESP32S3
 
-**app_main** 中包含主从初始化代码，自行选择编译
+support device and host in **app_main**.
 
-## PATCH
+## patch for usb host
 
 - usbh_core.c
 
@@ -13,9 +13,4 @@
     usbh_class_info_table_end = (struct usbh_class_info *)&_usbh_class_info_end;
 ```
 
-- CMakeLists.txt，修改为正确路径
-
-```
-include($ENV{IDF_PATH}/demo/cherryusb/main/cherryusb/cherryusb.cmake)
-```
 

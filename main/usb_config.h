@@ -6,8 +6,8 @@
 #ifndef CHERRYUSB_CONFIG_H
 #define CHERRYUSB_CONFIG_H
 
-#define CHERRYUSB_VERSION     0x010100
-#define CHERRYUSB_VERSION_STR "v1.1.0"
+#define CHERRYUSB_VERSION     0x010200
+#define CHERRYUSB_VERSION_STR "v1.2.0"
 
 /* ================ USB common Configuration ================ */
 #include "sdkconfig.h"
@@ -36,10 +36,10 @@
 
 /* ================= USB Device Stack Configuration ================ */
 
-#define CONFIG_USBDEV_MAX_BUS 1    // for now, bus num must be 1 except hpm ip
-
-/* Ep0 max transfer buffer, specially for receiving data from ep0 out */
-#define CONFIG_USBDEV_REQUEST_BUFFER_LEN 256
+/* Ep0 in and out transfer buffer */
+#ifndef CONFIG_USBDEV_REQUEST_BUFFER_LEN
+#define CONFIG_USBDEV_REQUEST_BUFFER_LEN 512
+#endif
 
 /* Setup packet log for debug */
 // #define CONFIG_USBDEV_SETUP_LOG_PRINT
@@ -100,7 +100,6 @@
 
 /* ================ USB HOST Stack Configuration ================== */
 
-#define CONFIG_USBHOST_MAX_BUS              1
 #define CONFIG_USBHOST_MAX_RHPORTS          1
 #define CONFIG_USBHOST_MAX_EXTHUBS          1
 #define CONFIG_USBHOST_MAX_EHPORTS          4
@@ -139,6 +138,16 @@
 #define CONFIG_USBHOST_MSC_TIMEOUT 5000
 #endif
 
+/* This parameter affects usb performance, and depends on (TCP_WND)tcp eceive windows size,
+ * you can change with 2K,4K,8K,16K,default is 2K to get one TCP_MSS
+ */
+#ifndef CONFIG_USBHOST_RNDIS_ETH_MAX_RX_SIZE
+#define CONFIG_USBHOST_RNDIS_ETH_MAX_RX_SIZE (2048)
+#endif
+#ifndef CONFIG_USBHOST_RNDIS_ETH_MAX_TX_SIZE
+#define CONFIG_USBHOST_RNDIS_ETH_MAX_TX_SIZE (2048)
+#endif
+
 #define CONFIG_USBHOST_BLUETOOTH_HCI_H4
 // #define CONFIG_USBHOST_BLUETOOTH_HCI_LOG
 
@@ -151,9 +160,14 @@
 
 /* ================ USB Device Port Configuration ================*/
 
-#define CONFIG_USBDEV_MAX_BUS 1
+#define CONFIG_USBDEV_MAX_BUS 1    // for now, bus num must be 1 except hpm ip
 
 #define CONFIG_USBDEV_EP_NUM 6
+
+/* ---------------- FSDEV Configuration ---------------- */
+//#define CONFIG_USBDEV_FSDEV_PMA_ACCESS 2 // maybe 1 or 2, many chips may have a difference
+
+/* ---------------- DWC2 Configuration ---------------- */
 #define CONFIG_USB_DWC2_RXALL_FIFO_SIZE (200 - 16 * 6)
 #define CONFIG_USB_DWC2_TX0_FIFO_SIZE (64 / 4)
 #define CONFIG_USB_DWC2_TX1_FIFO_SIZE (64 / 4)
@@ -162,22 +176,48 @@
 #define CONFIG_USB_DWC2_TX4_FIFO_SIZE (64 / 4)
 #define CONFIG_USB_DWC2_TX5_FIFO_SIZE (64 / 4)
 
+/* ---------------- MUSB Configuration ---------------- */
+// #define CONFIG_USB_MUSB_SUNXI
+
 /* ================ USB Host Port Configuration ==================*/
+
+#define CONFIG_USBHOST_MAX_BUS  1
 
 #define CONFIG_USBHOST_PIPE_NUM 7
 
+/* ---------------- EHCI Configuration ---------------- */
+
+#define CONFIG_USB_EHCI_HCCR_OFFSET     (0x0)
+#define CONFIG_USB_EHCI_FRAME_LIST_SIZE 1024
+#define CONFIG_USB_EHCI_QH_NUM          CONFIG_USBHOST_PIPE_NUM
+#define CONFIG_USB_EHCI_QTD_NUM         3
+#define CONFIG_USB_EHCI_ITD_NUM         20
+// #define CONFIG_USB_EHCI_HCOR_RESERVED_DISABLE
+// #define CONFIG_USB_EHCI_CONFIGFLAG
+// #define CONFIG_USB_EHCI_ISO
+// #define CONFIG_USB_EHCI_WITH_OHCI
+
+/* ---------------- OHCI Configuration ---------------- */
+#define CONFIG_USB_OHCI_HCOR_OFFSET (0x0)
+
+/* ---------------- XHCI Configuration ---------------- */
+#define CONFIG_USB_XHCI_HCCR_OFFSET (0x0)
+
+/* ---------------- DWC2 Configuration ---------------- */
+/*
+ * (largest USB packet used / 4) + 1 for status information + 1 transfer complete +
+ * 1 location each for Bulk/Control endpoint for handling NAK/NYET scenario
+ */
 #define CONFIG_USB_DWC2_NPTX_FIFO_SIZE (256/16)
 #define CONFIG_USB_DWC2_RX_FIFO_SIZE (256/8 + 2)
 #define CONFIG_USB_DWC2_PTX_FIFO_SIZE (200 - CONFIG_USB_DWC2_RX_FIFO_SIZE - CONFIG_USB_DWC2_NPTX_FIFO_SIZE)
 
-/* ================ EHCI Configuration ================ */
+/* ---------------- MUSB Configuration ---------------- */
+// #define CONFIG_USB_MUSB_SUNXI
 
-#define CONFIG_USB_EHCI_HCCR_OFFSET     (0x0)
-#define CONFIG_USB_EHCI_HCOR_OFFSET     (0x10)
-#define CONFIG_USB_EHCI_FRAME_LIST_SIZE 1024
-// #define CONFIG_USB_EHCI_HCOR_RESERVED_DISABLE
-// #define CONFIG_USB_EHCI_CONFIGFLAG
-// #define CONFIG_USB_EHCI_PORT_POWER
-// #define CONFIG_USB_EHCI_PRINT_HW_PARAM
+extern uint32_t _usbh_class_info_start;
+extern uint32_t __usbh_class_info_end;
+#define __usbh_class_info_start__ _usbh_class_info_start
+#define __usbh_class_info_end__ _usbh_class_info_end
 
 #endif

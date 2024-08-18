@@ -17,16 +17,11 @@
 
 void app_main(void)
 {
-    USB_LOG_INFO("Hello world!\n");
+    USB_LOG_INFO("Hello CherryUSB!\n");
 
-    // extern void cdc_acm_msc_init(uint8_t busid, uint32_t reg_base);
-    // cdc_acm_msc_init(0, 0x60080000);
-
-    usbh_initialize(0, 0x60080000);
+    usbh_initialize(0, ESP_USBH_BASE);
     while(1)
     {
-        // extern void cdc_acm_data_send_with_dtr_test(uint8_t busid);
-        // cdc_acm_data_send_with_dtr_test(0);
         vTaskDelay(10);
     }
 }

@@ -1,16 +1,30 @@
-## CherryUSB ESP32S2/ESP32S3
+# CherryUSB Examples for ESP
 
-support device and host in **app_main**.
+This is the examples repository for the [CherryUSB](https://github.com/cherry-embedded/CherryUSB), which is a tiny and portable USB Stack (device & host) for embedded system with USB IP.
 
-## patch for usb host
+This repository is wrapped as an ESP-IDF component and finally published to [Component Registry](https://components.espressif.com/).
 
-- usbh_core.c
+You can build the examples in this repository with **ESP-IDF v4.4.1 or later** directly. Or using the ESP-IDF component manager.
+
+## How to add this component from esp-registry to your project
+
+Just add ``idf_component.yml`` to your main component with the following content::
+
+```yaml
+## IDF Component Manager Manifest File
+dependencies:
+  cherry-embedded/cherryusb: "^1.4.0~1"
+```
+
+Or simply run:
 
 ```
-    extern uint32_t _usbh_class_info_start;
-    extern uint32_t _usbh_class_info_end;
-    usbh_class_info_table_begin = (struct usbh_class_info *)&_usbh_class_info_start;
-    usbh_class_info_table_end = (struct usbh_class_info *)&_usbh_class_info_end;
+idf.py add-dependency "cherry-embedded/cherryusb"
 ```
 
+During the build process, the ESP-IDF build system will automatically download and install this component.
 
+## API Documentation
+
+1. Library introduction can be found on [README](https://github.com/cherry-embedded/CherryUSB/blob/master/README.md) from the upstream CherryUSB.
+2. Full API code documentations and step by step guides can be found in [CherryUSB Docs Website](https://cherryusb.readthedocs.io/).

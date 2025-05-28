@@ -14,6 +14,7 @@
 #include "esp_system.h"
 #include "usbd_core.h"
 #include "usbh_core.h"
+#include "demo/msc_ram_template.c"
 
 extern void msc_ram_init(uint8_t busid, uintptr_t reg_base);
 

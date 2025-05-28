@@ -1,3 +1,3 @@
 
-idf_component_register(SRCS "msc_ram_template.c" "main.c"
+idf_component_register(SRCS "main.c"
                     INCLUDE_DIRS ".")

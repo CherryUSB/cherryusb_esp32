@@ -14,6 +14,7 @@
 #include "esp_system.h"
 #include "usbd_core.h"
 #include "usbh_core.h"
+#include "demo/usb_host.c"
 
 void app_main(void)
 {

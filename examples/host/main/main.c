@@ -12,6 +12,9 @@
 #include "esp_chip_info.h"
 #include "esp_flash.h"
 #include "esp_system.h"
+#include "esp_netif.h"
+#include "esp_event.h"
+#include "esp_log.h"
 #include "usbd_core.h"
 #include "usbh_core.h"
 #include "demo/usb_host.c"
@@ -19,6 +22,11 @@
 void app_main(void)
 {
     USB_LOG_INFO("Hello CherryUSB!\n");
+
+    // Initialize TCP/IP network interface aka the esp-netif (should be called only once in application)
+    ESP_ERROR_CHECK(esp_netif_init());
+    // Create default event loop that running in background
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
 
     usbh_initialize(0, ESP_USBH_BASE);
     while(1)

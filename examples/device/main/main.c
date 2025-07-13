@@ -14,15 +14,15 @@
 #include "esp_system.h"
 #include "usbd_core.h"
 #include "usbh_core.h"
-#include "demo/msc_ram_template.c"
+#include "demo/cdc_acm_msc_template.c"
 
-extern void msc_ram_init(uint8_t busid, uintptr_t reg_base);
+extern void cdc_acm_msc_init(uint8_t busid, uintptr_t reg_base);
 
 void app_main(void)
 {
     USB_LOG_INFO("Hello CherryUSB!\n");
 
-    msc_ram_init(0, ESP_USBD_BASE);
+    cdc_acm_msc_init(0, 0x60080000);
     while(1)
     {
         vTaskDelay(10);

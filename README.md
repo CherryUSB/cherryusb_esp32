@@ -13,7 +13,7 @@ Just add ``idf_component.yml`` to your main component with the following content
 ```yaml
 ## IDF Component Manager Manifest File
 dependencies:
-  cherry-embedded/cherryusb: "^1.4.0~1"
+  cherry-embedded/cherryusb: "^1.5.1~0"
 ```
 
 Or simply run:

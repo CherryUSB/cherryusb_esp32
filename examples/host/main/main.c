@@ -28,7 +28,7 @@ void app_main(void)
     // Create default event loop that running in background
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
-    usbh_initialize(0, ESP_USBH_BASE);
+    usbh_initialize(0, 0x60080000);
     while(1)
     {
         vTaskDelay(10);

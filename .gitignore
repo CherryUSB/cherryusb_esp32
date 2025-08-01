@@ -1,2 +1,13 @@
-build
+# VS Code Settings
+.vscode/
+
+# Example project files
+examples/**/sdkconfig
+examples/**/sdkconfig.old
+examples/**/build
+
+# lock files for examples and components
+dependencies.lock
+
+# managed_components for examples
 managed_components

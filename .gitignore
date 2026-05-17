@@ -1,5 +1,6 @@
 # VS Code Settings
 .vscode/
+.devcontainer/
 
 # Example project files
 examples/**/sdkconfig
